@@ -1,30 +1,51 @@
 import React from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-function Car(props) {
-  return <li>I am a { props.brand }</li>;
-}
 
-function Garage() {
-  const cars = [
-    {id: 1, brand: 'Ford'},
-    {id: 2, brand: 'BMW'},
-    {id: 3, brand: 'Audi'}
-  ];
+
+function MyForm() {
+  const [inputs, setInputs] = useState("");
+
+  
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(JSON.stringify(inputs, null, 2));
+  }
+
   return (
-    <>
-      <h1>Who lives in my garage?</h1>
-      <ul>
-        {cars.map((car) => <Car key={car.id} brand={car.brand} />)}
-      </ul>
-    </>
-  );
+    <form onSubmit={handleSubmit}>
+      <label>Enter your name:
+      <input 
+        type="text" 
+        name="username" 
+        value={inputs.username || ""} 
+        onChange={handleChange}
+      />
+      </label>
+      <label>Enter your age:
+        <input 
+          type="number" 
+          name="age" 
+          value={inputs.age || ""} 
+          onChange={handleChange}
+        />
+        </label>
+        <input type="submit" />
+    </form>
+  )
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Garage />);
+root.render(<MyForm/>);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
